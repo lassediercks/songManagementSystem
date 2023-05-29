@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model part {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  songId String @db.ObjectId
+  song   song   @relation(fields: [songId], references: [id])
+}
+
+model song {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  part  part[]
+}
